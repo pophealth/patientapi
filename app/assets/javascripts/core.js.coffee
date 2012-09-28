@@ -250,11 +250,28 @@ class hQuery.Facility extends hQuery.CodedValue
   constructor: (@json) ->
     if @json['code']?
       super @json['code']['code'], @json['code']['codeSystem']
+    if @json['start_time']
+      @_startDate = hQuery.dateFromUtcSeconds @json['start_time']
+    if @json['end_time']
+      @_endDate = hQuery.dateFromUtcSeconds @json['end_time']
 
   ###*
   @returns {String} the name of the facility
   ###
   name: -> @json['name']
+
+  ###*
+  Date and time at which the coded entry started
+  @returns {Date}
+  ###
+  startDate: -> @_startDate
+
+  ###*
+  Date and time at which the coded entry ended
+  @returns {Date}
+  ###
+  endDate: -> @_endDate
+
 
   ###*
   @returns {Array} an array of {@link hQuery.Address} objects associated with the facility

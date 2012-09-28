@@ -450,5 +450,17 @@
         "codeSystem": "SNOMED-CT"
       }
     }
+  ],
+  "medical_equipment" : [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "273447005"
+        ]        
+      },
+      "start_time": 1269762691,
+      "end_time": 1269762693,
+      "anatomicalStructure" : {"code": "13648007", "codeSystem": "SNOMED-CT"}
+    }
   ]
 }

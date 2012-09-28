@@ -21,3 +21,8 @@ class hQuery.MedicalEquipment extends hQuery.CodedEntry
   
   constructor: (@json) ->
     super(@json)
+
+  ###*
+  @returns {CodedValue}
+  ###
+  anatomicalStructure: -> new hQuery.CodedValue @json['anatomicalStructure']['code'], @json['anatomicalStructure']['codeSystem']

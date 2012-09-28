@@ -168,7 +168,11 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 1, @context.eval('patient.functionalStatuses().length')
     assert_equal 'result', @context.eval('patient.functionalStatuses()[0].type()')
     assert_equal 'patient reported', @context.eval('patient.functionalStatuses()[0].source().code()')
-    
+  end
+
+  def test_medical_equipment
+    assert_equal 1, @context.eval('patient.medicalEquipment().length')
+    assert_equal '13648007', @context.eval('patient.medicalEquipment()[0].anatomicalStructure().code()')
   end
   
 end
