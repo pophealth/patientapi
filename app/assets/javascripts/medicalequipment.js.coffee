@@ -26,3 +26,9 @@ class hQuery.MedicalEquipment extends hQuery.CodedEntry
   @returns {CodedValue}
   ###
   anatomicalStructure: -> new hQuery.CodedValue @json['anatomicalStructure']['code'], @json['anatomicalStructure']['codeSystem']
+
+  ###*
+  Currently mapped to the end date for the medical equipment
+  @returns {Date}
+  ###
+  removalDateTime: -> @endDate()

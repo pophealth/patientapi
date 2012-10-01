@@ -175,6 +175,7 @@ class PatientApiTest  < Test::Unit::TestCase
   def test_medical_equipment
     assert_equal 1, @context.eval('patient.medicalEquipment().length')
     assert_equal '13648007', @context.eval('patient.medicalEquipment()[0].anatomicalStructure().code()')
+    assert_equal 1269762693000, @context.eval('patient.medicalEquipment()[0].removalDateTime().getTime()')
   end
   
 end
