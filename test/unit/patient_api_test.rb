@@ -66,6 +66,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal '71854001', @context.eval('patient.procedures()[0].site().code()')
     assert_equal 'Bobby', @context.eval('patient.procedures()[0].performer().person().given()')
     assert_equal 'Tables', @context.eval('patient.procedures()[0].performer().person().last()')
+    assert_equal 1073238725000, @context.eval('patient.procedures()[0].incisionDateTime().getTime()')
   end
 
   def test_vital_signs
