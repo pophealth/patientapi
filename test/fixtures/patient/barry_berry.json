@@ -77,6 +77,8 @@
       },
       "facility": {
         "name": "General Hospital",
+        "start_time": 1124956803,
+        "end_time": 1124957003,
         "code": {
           "code": "1155-1",
           "codeSystem": "HL7 Healthcare Service Location"
