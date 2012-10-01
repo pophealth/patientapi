@@ -51,6 +51,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 'CPT', @context.eval('patient.encounters()[0].reasonForVisit().type()[0].codeSystemName()')
     assert_equal 'HL7 Healthcare Service Location', @context.eval('patient.encounters()[0].facility().codeSystemName()')
     assert_equal '1155-1', @context.eval('patient.encounters()[0].facility().code()')
+    assert_equal 200, @context.eval('patient.encounters()[0].facility().lengthOfStay()')
     assert_equal 'General Hospital', @context.eval('patient.encounters()[0].facility().name()')
   end
 
@@ -66,6 +67,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal '71854001', @context.eval('patient.procedures()[0].site().code()')
     assert_equal 'Bobby', @context.eval('patient.procedures()[0].performer().person().given()')
     assert_equal 'Tables', @context.eval('patient.procedures()[0].performer().person().last()')
+    assert_equal 1073238725000, @context.eval('patient.procedures()[0].incisionDateTime().getTime()')
   end
 
   def test_vital_signs
@@ -173,6 +175,7 @@ class PatientApiTest  < Test::Unit::TestCase
   def test_medical_equipment
     assert_equal 1, @context.eval('patient.medicalEquipment().length')
     assert_equal '13648007', @context.eval('patient.medicalEquipment()[0].anatomicalStructure().code()')
+    assert_equal 1269762693000, @context.eval('patient.medicalEquipment()[0].removalDateTime().getTime()')
   end
   
 end

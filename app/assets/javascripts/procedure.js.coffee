@@ -26,3 +26,8 @@ class hQuery.Procedure extends hQuery.CodedEntry
   procedure was performed
   ###
   site: -> new hQuery.CodedValue @json['site']['code'], @json['site']['codeSystem']
+
+  ###*
+  @returns {Date} Date/Time when the incision was made during a procedure, if applicable
+  ###
+  incisionDateTime: -> hQuery.dateFromUtcSeconds @json['incisionDateTime']

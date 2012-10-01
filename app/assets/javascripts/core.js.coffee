@@ -272,6 +272,11 @@ class hQuery.Facility extends hQuery.CodedValue
   ###
   endDate: -> @_endDate
 
+  ###*
+  The length of stay in this facility in seconds
+  @returns {Integer}
+  ###
+  lengthOfStay: -> @json['end_time'] - @json['start_time']
 
   ###*
   @returns {Array} an array of {@link hQuery.Address} objects associated with the facility
