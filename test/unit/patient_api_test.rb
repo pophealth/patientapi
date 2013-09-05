@@ -81,6 +81,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 'Colonscopy', @context.eval('patient.procedures()[0].freeTextType()')
     assert @context.eval('patient.procedures()[0].includesCodeFrom({"CPT": ["44388"]})')
     assert_equal 1, @context.eval('patient.procedures().match({"CPT": ["44388"]}).length')
+    assert_equal 1, @context.eval('patient.procedures().regex_match({"CPT": ["4438.*"]}).length')
     assert_equal 0, @context.eval('patient.procedures().match({"CPT": ["44388"]}, sampleDate).length')
     assert_equal 'SNOMED-CT', @context.eval('patient.procedures()[0].site().codeSystemName()')
     assert_equal '71854001', @context.eval('patient.procedures()[0].site().code()')
