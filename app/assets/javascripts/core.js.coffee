@@ -71,6 +71,20 @@ class hQuery.CodedValue
             return true
     return false
 
+  ###*
+  Returns true if the contained code and codeSystemName match a code in the supplied codeSet.
+  @param {Object} codeSet a hash with code system names as keys and an array of codes (provided as regular expressions) as values
+  @returns {boolean}
+  ###
+  regex_includedIn: (codeSet) ->
+    for codeSystemName, codes of codeSet
+      if @csn==codeSystemName
+        for code in codes
+          regex = RegExp(code,"i")
+          if regex.test(@c)
+            return true
+    return false
+
 ###*
 Status as defined by value set 2.16.840.1.113883.5.14,
 the ActStatus vocabulary maintained by HL7
@@ -438,6 +452,17 @@ class hQuery.CodedEntry
     return false
 
   ###*
+  Returns true if any of this entry codes match a code in the supplied codeSet.
+  @param {Object} codeSet a hash with code system names as keys and an array of codes (provided as regular expressions) as values
+  @returns {boolean}
+  ###
+  regex_includesCodeFrom: (codeSet) ->
+    for codedValue in @_type
+      if codedValue.regex_includedIn(codeSet)
+        return true
+    return false
+
+  ###*
   @returns {Boolean} whether the entry was negated
   ###
   negationInd: -> @json['negationInd'] || false
@@ -503,6 +528,26 @@ class hQuery.CodedEntryList extends Array
       afterStart = (!start || entry.timeStamp()>=start)
       beforeEnd = (!end || entry.timeStamp()<=end)
       matchesCode = codeSet == null || entry.includesCodeFrom(codeSet)
+      if (afterStart && beforeEnd && matchesCode && (includeNegated || !entry.negationInd()))
+        cloned.push(entry)
+    cloned
+
+  ###*
+  Return the number of entries that match the
+  supplied code set where those entries occur between the supplied time bounds
+  @param {Object} codeSet a hash with code system names as keys and an array of codes (provided as regular expressions) as values
+  @param {Date} start the start of the period during which the entry must occur, a null value will match all times
+  @param {Date} end the end of the period during which the entry must occur, a null value will match all times
+  @param {boolean} includeNegated whether the returned list of entries should include those that have been negated
+  @return {CodedEntryList} the matching entries
+  TODO - decide on what to do with includeNegated parameter
+  ###
+  regex_match: (codeSet, start, end, includeNegated=false) ->
+    cloned = new hQuery.CodedEntryList()
+    for entry in this
+      afterStart = (!start || entry.timeStamp()>=start)
+      beforeEnd = (!end || entry.timeStamp()<=end)
+      matchesCode = codeSet == null || entry.regex_includesCodeFrom(codeSet)
       if (afterStart && beforeEnd && matchesCode && (includeNegated || !entry.negationInd()))
         cloned.push(entry)
     cloned
