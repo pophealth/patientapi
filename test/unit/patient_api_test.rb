@@ -20,13 +20,13 @@ class PatientApiTest  < Test::Unit::TestCase
 
     @context.eval(patient_api + "\nvar barry = " + fixture_json + ";\n" + initialize_patient + "\n" + initialize_date)
   end
-  
+
   def test_utils
     @context.eval('var encounter = patient.encounters()[0]')
     assert_equal 2005, @context.eval('encounter.startDate().getFullYear()')
     @context.eval('encounter.setTimestamp(new Date(2010,1,1))')
     assert_equal 2010, @context.eval('encounter.startDate().getFullYear()')
-  end    
+  end
 
   def test_demographics
     assert_equal 'Barry', @context.eval('patient.given()')
@@ -51,7 +51,6 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 'Care', @context.eval('patient.provider().providerEntity().last()')
     assert_equal 'en', @context.eval('patient.languages()[0].type()[0].code()')
     assert_equal true, @context.eval('patient.expired()')
-    assert_equal false, @context.eval('patient.clinicalTrialParticipant()')
   end
 
   def test_encounters
@@ -100,7 +99,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal '8480-6', @context.eval('patient.vitalSigns()[1].resultType()[0].code()')
     assert_equal 'BP taken sitting', @context.eval('patient.vitalSigns()[1].comment()')
   end
-  
+
   def test_results
     assert_equal 1, @context.eval('patient.results().length')
     assert_equal '104150001', @context.eval('patient.results()[0].type()[0].code()')
@@ -125,7 +124,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 1, @context.eval('patient.medications().length')
     assert_equal 24, @context.eval('patient.medications()[0].administrationTiming().period().value()')
     assert @context.eval('patient.medications()[0].administrationTiming().institutionSpecified()')
-    assert_equal 'tablet', @context.eval('patient.medications()[0].dose().unit()')
+    assert_equal 'tablet', @context.eval('patient.medications()[0].dose().units')
     assert_equal 'Multivitamin', @context.eval('patient.medications()[0].medicationInformation().freeTextProductName()')
     assert_equal 1, @context.eval('patient.medications().match({"RxNorm": ["89905"]}).length')
     assert_equal 'C38288', @context.eval('patient.medications()[0].route().code()')
@@ -137,7 +136,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 3, @context.eval('patient.medications()[0].cumulativeMedicationDuration()["scalar"]')
     assert_equal "195911009", @context.eval('patient.medications()[0].reason().code()')
   end
-  
+
   def test_immunizations
     assert_equal 3, @context.eval('patient.immunizations().length')
     assert_equal 2, @context.eval('patient.immunizations().withoutNegation().length')
@@ -162,7 +161,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 'MD', @context.eval('patient.immunizations()[1].performer().person().addresses()[0].state()')
     assert_equal '20899', @context.eval('patient.immunizations()[1].performer().person().addresses()[0].postalCode()')
   end
-  
+
   def test_allergies
     assert_equal 1, @context.eval('patient.allergies().length')
     assert_equal 'Carries Epipen',@context.eval('patient.allergies()[0].comment()')
@@ -176,17 +175,17 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 1269762693000, @context.eval('patient.allergies()[0].endDate().getTime()')
     assert @context.eval('patient.allergies()[0].isTimeRange()')
   end
-  
+
   def test_pregnancies
     assert_equal 1, @context.eval('patient.pregnancies().length')
     assert_equal 1, @context.eval('patient.pregnancies().match({"SNOMED-CT": ["77386006"]}).length')
   end
-  
+
   def test_socialhistory
     assert_equal 1, @context.eval('patient.socialHistories().length')
     assert_equal 1, @context.eval('patient.socialHistories().match({"SNOMED-CT": ["229819007"]}).length')
   end
-  
+
   def test_functional_status
     assert_equal 1, @context.eval('patient.functionalStatuses().length')
     assert_equal 'result', @context.eval('patient.functionalStatuses()[0].type()')
@@ -197,5 +196,15 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 1, @context.eval('patient.medicalEquipment().length')
     assert_equal '13648007', @context.eval('patient.medicalEquipment()[0].anatomicalStructure().code()')
   end
-  
+
+  def test_care_goals
+    assert_equal 2, @context.eval('patient.careGoals().length')
+    assert_equal '414285001', @context.eval('patient.careGoals()[0].relatedTo().code()')
+    assert_equal 'SNOMED-CT', @context.eval('patient.careGoals()[0].relatedTo().codeSystemName()')
+    assert_equal 132, @context.eval('patient.careGoals()[0].targetOutcome().value()')
+    assert_equal 'points', @context.eval('patient.careGoals()[0].targetOutcome().unit()')
+    assert_equal '414285002', @context.eval('patient.careGoals()[1].targetOutcome().code()')
+    assert_equal 'SNOMED-CT', @context.eval('patient.careGoals()[1].targetOutcome().codeSystemName()')
+  end
+
 end

@@ -14,14 +14,8 @@
     "code": "1013",
     "code_system": "HL7"
   },
-  "race": {
-    "code": "2131-1",
-    "code_system": "CDC"
-  },
-  "ethnicity": {
-    "code": "2186-5",
-    "code_system": "CDC"
-  },
+  "race": "2131-1",
+  "ethnicity": "2186-5",
   "birthPlace": {
     "city": "Washington",
     "state": "DC"
@@ -452,7 +446,7 @@
       "codes": {
         "SNOMED-CT": [
           "273447005"
-        ]        
+        ]
       },
       "start_time": 1269762691,
       "end_time": 1269762693,
@@ -468,11 +462,37 @@
       "codes": {
         "SNOMED-CT": [
           "273447005"
-        ]        
+        ]
       },
       "start_time": 1269762691,
       "end_time": 1269762693,
       "anatomicalStructure" : {"code": "13648007", "code_system": "SNOMED-CT"}
+    }
+  ],
+  "care_goals" : [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "273447005"
+        ]
+      },
+      "start_time": 1269762691,
+      "end_time": 1269762693,
+      "relatedTo": { "code": "414285001","code_system": "SNOMED-CT" },
+      "targetOutcome": {
+        "unit": "points",
+        "value": 132
+      }
+    },{
+      "codes": {
+        "SNOMED-CT": [
+          "273447005"
+        ]
+      },
+      "start_time": 1269762691,
+      "end_time": 1269762693,
+      "relatedTo": { "code": "414285001", "code_system": "SNOMED-CT" },
+      "targetOutcome": { "code": "414285002", "code_system": "SNOMED-CT" }
     }
   ]
 }

@@ -21,7 +21,7 @@ class hQuery.NoImmunization extends hQuery.CodedValue
   OUT_OF_STOCK = "OSTOCK"
   PAT_OBJ = "PATOBJ"
   PHIL_OBJ = "PHILISOP"
-  REL_OBJ = "RELIG"  
+  REL_OBJ = "RELIG"
   VAC_EFF = "VACEFF"
   VAC_SAFETY = "VACSAF"
 
@@ -44,22 +44,22 @@ class hQuery.NoImmunization extends hQuery.CodedValue
   @returns {Boolean}
   ###
   isPatObj: -> @c is PAT_OBJ
-	
+
   ###*
   @returns {Boolean}
   ###
-  isPhilisop: -> @c is PHIL_OBJ	
-  
+  isPhilisop: -> @c is PHIL_OBJ
+
   ###*
   @returns {Boolean}
   ###
   isRelig: -> @c is REL_OBJ
-  
+
   ###*
   @returns {Boolean}
   ###
   isVacEff: -> @c is VAC_EFF
-  
+
   ###*
   @returns {Boolean}
   ###
@@ -74,37 +74,37 @@ class hQuery.NoImmunization extends hQuery.CodedValue
 class hQuery.Immunization extends hQuery.CodedEntry
   constructor: (@json) ->
     super(@json)
-   
+
   ###*
-  @returns{hQuery.Scalar} 
+  @returns{hQuery.Scalar}
   ###
   medicationSeriesNumber: ->  new hQuery.Scalar @json['medicationSeriesNumber'] if  @json['medicationSeriesNumber']
-  
+
   ###*
   @returns{hQuery.MedicationInformation}
   ###
   medicationInformation: ->new hQuery.MedicationInformation @json
-  
+
   ###*
   @returns{Date} Date immunization was administered
   ###
   administeredDate: -> dateFromUtcSeconds @json['administeredDate']
-  
+
   ###*
   @returns{hQuery.Actor} Performer of immunization
   ###
   performer:-> new hQuery.Actor @json['performer'] if @json['performer']
-  
+
   ###*
   @returns {comment} human readable description of event
   ###
   comment: -> @json['comment']
-  
+
   ###*
   @returns {Boolean} whether the immunization has been refused by the patient.
   ###
   refusalInd: -> @json['negationInd']
-  
+
   ###*
   NoImmunzation as defined by value set 2.16.840.1.113883.1.11.19717
   The terms come from Health Level Seven (HL7) Version 3.0 Vocabulary and are managed by HL7
@@ -112,4 +112,9 @@ class hQuery.Immunization extends hQuery.CodedEntry
   @returns {hQuery.NoImmunization}   Used to indicate reason an immunization was not administered.
   ###
   refusalReason: -> new hQuery.NoImmunization @json['negationReason']?['code'], @json['negationReason']?['code_system']
- 
+
+  ###*
+  @returns {CodedValue}
+  ###
+  reaction: -> new hQuery.createCodedValue @json['reaction']
+

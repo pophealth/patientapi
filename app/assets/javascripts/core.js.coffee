@@ -52,7 +52,7 @@ class hQuery.CodedValue
   @returns {String} the code system name
   ###
   codeSystemName: -> @csn
-  
+
   @normalize: (val) ->
     String(val).toLowerCase()
 
@@ -171,11 +171,11 @@ class hQuery.Person
    @returns {String} the last/family name of the person
   ###
   last: -> @json['last']
-  
+
   ###*
    @returns {String} the display name of the person
   ###
-  name: -> 
+  name: ->
     if @json['name']
       @json['name']
     else
@@ -190,7 +190,7 @@ class hQuery.Person
       for address in @json['addresses']
         list.push(new hQuery.Address(address))
     list
-    
+
   ###*
   @returns {Array} an array of {@link hQuery.Telecom} objects associated with the person
   ###
@@ -219,17 +219,17 @@ class hQuery.Actor
 ###
 class hQuery.Organization
   constructor: (@json) ->
-  
+
   ###*
   @returns {String} the id for the organization
   ###
   organizationId: -> @json['organizationId']
-  
+
   ###*
   @returns {String} the name of the organization
   ###
   organizationName: -> @json['name']
-  
+
   ###*
   @returns {Array} an array of {@link hQuery.Address} objects associated with the organization
   ###
@@ -239,7 +239,7 @@ class hQuery.Organization
       for address in @json['addresses']
         list.push(new hQuery.Address(address))
     list
-    
+
   ###*
   @returns {Array} an array of {@link hQuery.Telecom} objects associated with the organization
   ###
@@ -346,7 +346,7 @@ class hQuery.CodedEntry
     # id of the entry from the source document if available
     @source_id = @json['id']
     @_freeTextType = @json['description']
-    
+
   ###*
   Adjust the start and end times of this event to the supplied timestamp
   ###
@@ -385,12 +385,12 @@ class hQuery.CodedEntry
   isTimeRange: -> @_startDate? && @_endDate?
 
   ###*
-  Determines whether a coded entry contains sufficient information (code and at least 
+  Determines whether a coded entry contains sufficient information (code and at least
   one time stamp) to be usable
   @returns {boolean}
   ###
   isUsable: -> @_type.length>0 && (@_date || @_startDate || @_endDate)
-  
+
   ###*
   An Array of CodedValues which describe what kind of coded entry took place
   @returns {Array}
@@ -441,7 +441,7 @@ class hQuery.CodedEntry
   @returns {Boolean} whether the entry was negated
   ###
   negationInd: -> @json['negationInd'] || false
-  
+
   ###*
   Returns the values of the result. This will return an array that contains
   PhysicalQuantity or CodedValue objects depending on the result type.
@@ -469,7 +469,23 @@ class hQuery.CodedEntry
   @returns {hQuery.CodedValue}   Used to explain the rationale for a given entry.
   ###
   reason: -> hQuery.createCodedValue @json['reason']
-  
+
+  ###*
+  @returns {CodedEntryList}
+  ###
+  providerPreference: ->  new hQuery.CodedEntryList @json['providerPreference']
+
+
+  ###*
+  @returns {CodedEntryList}
+  ###
+  patientPreference: ->  new hQuery.CodedEntryList @json['patientPreference']
+
+  ###*
+  The health record field is the location within an electronic record where the data should be found
+  @returns {CodedValue}
+  ###
+  healthRecordField: ->  hQuery.createCodedValue @json['health_record_field']
 
 ###*
 @class Represents a list of hQuery.CodedEntry instances. Offers utility methods for matching
@@ -487,7 +503,7 @@ class hQuery.CodedEntryList extends Array
   pushIfUsable: (entry) ->
     if entry.isUsable()
       this.push(entry)
-  
+
   ###*
   Return the number of entries that match the
   supplied code set where those entries occur between the supplied time bounds

@@ -12,7 +12,7 @@ ultrasound, CT, MRI, angiography, cardiac echo, nuclear medicine, pathology, and
 observations.
 @class
 @augments hQuery.CodedEntry
-@exports Result as hQuery.Result 
+@exports Result as hQuery.Result
 ###
 class hQuery.Result extends hQuery.CodedEntry
   constructor: (@json) ->
@@ -30,14 +30,31 @@ class hQuery.Result extends hQuery.CodedEntry
   @returns {CodedValue}
   ###
   interpretation: -> hQuery.createCodedValue  @json['interpretation']
-  
+
   ###*
   @returns {String}
   ###
   referenceRange: -> @json['referenceRange']
-  
+
+  ###*
+  @returns {String}
+  ###
+  referenceRangeHigh: -> @json['referenceRangeHigh']
+
+  ###*
+  @returns {String}
+  ###
+  referenceRangeLow: -> @json['referenceRangeLow']
+
   ###*
   @returns {String}
   ###
   comment: -> @json['comment']
-  
+
+  ###*
+  The resulting status of a procedure as defined in the QDM documentation. This is different
+  than the status_code associated with the `CodedEntry` object, which relates to the data criteria
+  status as defined in health-data-standards/lib/hqmf-model/data_criteria.json.
+  @returns {CodedValue}
+  ###
+  qdmStatus: -> hQuery.createCodedValue  @json['qdm_status']
